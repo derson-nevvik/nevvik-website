@@ -1,0 +1,25 @@
+.navmenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navmenu .logo img {
+    height: 40px; /* adjust as needed */
+    display: block;
+  }
+  
+  .navmenu ul {
+    display: flex;
+    list-style: none;
+    gap: 20px; /* spacing between menu items */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navmenu ul li a {
+    text-decoration: none;
+    color: inherit;
+    padding: 8px 12px;
+  }
+  
