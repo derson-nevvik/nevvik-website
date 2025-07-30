@@ -2,10 +2,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10 40px; /* adicionado espaçamento lateral */
   }
   
   .navmenu .logo img {
-    height: 40px; /* adjust as needed */
+    height: 10px; /* adjust as needed */
     display: block;
   }
   
@@ -21,5 +22,18 @@
     text-decoration: none;
     color: inherit;
     padding: 8px 12px;
+    /*transition: background-color 0.3s, color 0.3s;*/
+  }
+  
+  #depoimentos {
+    scroll-margin-top: 80px; /* ou ajuste conforme a altura do seu menu fixo */
+  }
+  
+  
+  /* Logo + texto "NEVVIK" juntos */
+  .navmenu .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* espaço entre logo e texto */
   }
   
