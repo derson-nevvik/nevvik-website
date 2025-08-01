@@ -20,11 +20,11 @@
   
   .navmenu ul li a {
     text-decoration: none;
-    color: inherit;
+    color: White;
     padding: 8px 12px;
     /*transition: background-color 0.3s, color 0.3s;*/
   }
-  
+
   #depoimentos {
     scroll-margin-top: 80px; /* ou ajuste conforme a altura do seu menu fixo */
   }
