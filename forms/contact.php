@@ -1,41 +1,44 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+// Configurações do destinatário
+$destinatario = "nevvikoficial@gmail.com"; // <-- Altere para seu e-mail real
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+// Verifica se o formulário foi enviado via POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+    // Coleta os dados do formulário
+    $nome = strip_tags(trim($_POST["name"]));
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $assunto = strip_tags(trim($_POST["subject"]));
+    $mensagem = trim($_POST["message"]);
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+    // Validação básica
+    if (empty($nome) || empty($email) || empty($assunto) || empty($mensagem) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo "Por favor, preencha todos os campos corretamente.";
+        exit;
+    }
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    // Cria o conteúdo do e-mail
+    $conteudo = "Você recebeu uma nova mensagem do site:\n\n";
+    $conteudo .= "Nome: $nome\n";
+    $conteudo .= "Email: $email\n";
+    $conteudo .= "Assunto: $assunto\n";
+    $conteudo .= "Mensagem:\n$mensagem\n";
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+    // Cabeçalhos do e-mail
+    $headers = "From: $nome <$email>";
 
-  echo $contact->send();
-?>
+    // Envia o e-mail
+    if (mail($destinatario, $assunto, $conteudo, $headers)) {
+        http_response_code(200);
+        echo "Mensagem enviada com sucesso!";
+    } else {
+        http_response_code(500);
+        echo "Erro ao enviar a mensagem. Tente novamente mais tarde.";
+    }
+
+} else {
+    // Acesso inválido
+    http_response_code(403);
+    echo "Você não pode acessar esse recurso diretamente.";
+}
